@@ -17,8 +17,31 @@ blockchain = [
   { "from_user" => "anthony", "to_user" => "evan", "amount" => 1750 }
 ]
 
+
 # Write code below that returns the number of KelloggCoin that each user has in their 
 # KelloggCoin "wallet".
+
+
+# Initialize an empty hash to store user balances
+balances = Hash.new(0)
+
+# Process each transaction in the blockchain
+blockchain.each do |transaction|
+  from_user = transaction["from_user"]
+  to_user = transaction["to_user"]
+  amount = transaction["amount"]
+
+  # Deduct from sender's balance if not an ICO transaction
+  balances[from_user] -= amount if from_user
+  
+  # Add to receiver's balance
+  balances[to_user] += amount
+end
+
+# Output balances
+balances.each do |user, balance|
+  puts "#{user.capitalize}'s KelloggCoin balance is #{balance}" if user
+end
 
 # It should print out:
 # Ben's KelloggCoin balance is 14000
